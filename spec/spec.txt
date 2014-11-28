@@ -6,6 +6,11 @@
 
 1. Problem Description
 
+	1.home server由Database和CGI組成。Database需要三個table，user、setting和filelist。CGI分成User Interface(PHP語言)以及同步檔案用的程式。
+（問題：同步檔案用的程式可否採用C++？C++的背景程式可否和PHP語言的User Interface溝通？）
+
+	2.先確定APP的部份我們要選擇手機/PC/都要？APP分成UI和背景同步的功能。
+
 2. Supported Functions
 
 3. 任務分配

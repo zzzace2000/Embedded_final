@@ -1,18 +1,28 @@
 0. Objectives
 
-	1.在Beagleboard xM開發板上建立一個home server，在開發板連接Internet有線網路的時候，我們可以通過PC上的Browser、或Android手機/PC上的APP去存取它。
+	1.在Beagleboard xM開發板上建立一個home server，在開發板連接Internet有線網路的時候，
+	我們可以通過PC上的Browser、或Android手機/PC上的APP去存取它。
 	2.設計一個Android手機或PC上的APP，使得它能與server進行自動同步。
 	3.方式類似dropbox，將開發板上特定資料夾的檔案與Android手機/PC上的特定資料夾檔案同步處理。
 
 1. Problem Description
 
-	1.home server由Database和CGI組成。Database需要三個table，user、setting和filelist。CGI分成User Interface(PHP語言)以及同步檔案用的程式。
-（問題：同步檔案用的程式可否採用C++？C++的背景程式可否和PHP語言的User Interface溝通？）
+	1.home server由Database和CGI組成。Database需要三個table，user、setting（和filelist？）。
+	CGI分成User Interface以及同步檔案用的程式，使用PHP語言。
 
 	2.先確定APP的部份我們要選擇手機/PC/都要？APP分成UI和背景同步的功能。
 
 2. Supported Functions
 
 3. 任務分配
+	CGI Interface的基本架構：冠霖
+		0.熟悉鈞皓使用CodeIgniter開發的PHP code
+		1.取得開發板的filelist、修改時間 -> Due:12/5(Fri)
+		2.login
+		3.上傳/刪除檔案
+		
+	Android手機APP的基本架構：鈞皓
+		1.更明確的定義與Server溝通Interface的方式和參數 -> Due:12/5(Fri)
+		2.完成APP的基本架構
 
 4. Change Logs

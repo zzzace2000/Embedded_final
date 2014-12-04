@@ -13,6 +13,9 @@
 	2.先確定APP的部份我們要選擇手機/PC/都要？APP分成UI和背景同步的功能。
 
 2. Supported Functions
+	1.list_file($sync_folder) in welcome.php
+		$sync_folder:要同步的資料夾路徑。
+		返回值：$file_list[$i][0] 爲檔案名，$file_list[$i][1]爲修改時間。
 
 3. 任務分配
 	CGI Interface的基本架構：冠霖

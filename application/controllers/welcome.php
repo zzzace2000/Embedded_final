@@ -2,18 +2,68 @@
 
 class Welcome extends CI_Controller {
 	
-	
-	public function list_file($sync_folder)
+	public function list_file()
 	{
+		$sync_folder = "/home/root/sync/";
+		$file_list = array();
 		$tokens = preg_split ("/[\s,]+/", shell_exec("ls -l {$sync_folder} 2>&1"));
-		for ($x = 7; $x < count($tokens); $x += 9){
-			$i = ($x - 2) / 9;
-			if (($x - 2) % 9 == 5) {
-				$file_list[$i][0] = $tokens[$x + 3];
-				$file_list[$i][1] = $tokens[$x].' '.$tokens[$x + 1].' '.$tokens[$x + 2];
+		for ($x = 8; $x < count($tokens); $x += 9){
+			$i = ($x - 8) / 9;
+			if ($x% 9 == 8) {
+				$file_list[$i][0] = $tokens[$x];
+				$file_list[$i][1] = $tokens[$x - 3].' '.$tokens[$x - 2].' '.$tokens[$x - 1];
 			} 
 		}
-		return $file_list;
+		if (!empty($file_list)) return $file_list;
+	}
+
+	public function upload_file()
+	{
+		$arr = array('error' => '');
+		$this->load->view('upload', $arr);
+
+	}
+
+	public function do_upload()
+	{
+		$config['upload_path'] = "/home/root/sync/";
+		$config['allowed_types'] = '*';
+		$config['max_size']	= '100';
+		$config['max_width']  = '1024';
+		$config['max_height']  = '768';
+		
+    	$this->upload->initialize($config);
+
+		if(!$this->upload->do_upload())
+		{
+			echo("ERROR: ");
+			echo $this->upload->display_errors();
+		}
+		else
+		{
+			echo("UPLOAD SUCCESS");
+		}
+	}
+
+	public function download_file()
+	{
+		$arr = array('error' => '');
+		$this->load->view('download', $arr);
+	}
+
+	public function do_download()
+	{
+		//echo $_POST['userfile'];
+		$sync_folder = "/home/root/sync/";
+		$filename = $_POST['userfile'];
+		$myfile = $sync_folder.$filename;
+		//$mm_type="application/octet-stream";
+		//header("Cache-Control: public, must-revalidate");
+		header('Content-type:application/force-download');
+		header('Content-Transfer-Encoding: Binary');
+		//header("Content-Length: " .(string)(filesize($myFile)) );
+		header('Content-Disposition: attachment; filename="'.$filename.'"');
+		readfile($myfile);
 	}
 
 	/**
@@ -33,11 +83,10 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$sync_folder = "/home/fcoldstar/sync/";
+		$sync_folder = "/home/root/sync/";
 		$file_list = $this->list_file($sync_folder);
-		echo "File Name    /    last modified time<br>";
-		foreach($file_list as $i)
-			echo $i[0]."    /    ".$i[1]."<br>";
+		if (!empty($file_list))
+			echo json_encode($file_list);
 		$this->load->view('welcome_message');
 	}
 }
